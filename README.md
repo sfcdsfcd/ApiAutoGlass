@@ -9,11 +9,10 @@ Este projeto é uma API desenvolvida em .NET 8 utilizando arquitetura DDD para g
 - **MySQL:** Banco de dados utilizado para persistência dos dados.
   
 ## Funcionalidades Principais
-Cadastro de Produtos: Operações de criação, leitura, atualização e exclusão (CRUD).
-Filtragem Avançada: Consulta de produtos com filtros por descrição, status, datas de fabricação e validade, fornecedor, etc.
-Paginação de Resultados: Retorno paginado para listagens de produtos.
-Validações: Verificação de campos obrigatórios e regras de negócio no servidor.
-Segurança: Implementação básica de segurança com autorização e autenticação (se aplicável).  
+- **Cadastro de Produtos:** Operações de criação, leitura, atualização e exclusão (CRUD).
+- **Filtragem Avançada:** Consulta de produtos com filtros por descrição, status, datas de fabricação e validade, fornecedor, etc.
+- **Paginação de Resultados:** Retorno paginado para listagens de produtos.
+- **Validações: Verificação** de campos obrigatórios e regras de negócio no servidor.
 
 ## Configuração do Banco de Dados:
 
