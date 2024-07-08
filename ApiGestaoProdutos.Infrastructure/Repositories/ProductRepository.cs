@@ -1,4 +1,5 @@
-﻿using ApiGestaoProdutos.Domain.Entities;
+﻿using ApiGestaoProdutos.Application.DTOs;
+using ApiGestaoProdutos.Domain.Entities;
 using ApiGestaoProdutos.Domain.Interfaces;
 using ApiGestaoProdutos.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,60 @@ namespace ApiGestaoProdutos.Infrastructure.Repositories
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
+        }
+        public async Task<(IEnumerable<Product>,int)> GetAllWithFilterAsync(string Descricao, bool? Status,
+         DateTime? InicioDataFabricacao,
+         DateTime? FimDataFabricacao,
+         DateTime? InicioDataValidade,
+         DateTime? FimDataValidadeMax,
+         int? CodFornecedor,
+         int PageNumber,
+         int PageSize)
+        {
+            var query = _context.Products.AsQueryable();
+
+            if (!string.IsNullOrEmpty(Descricao))
+            {
+                query = query.Where(p => p.Descricao.Contains(Descricao));
+            }
+
+            if (Status.HasValue)
+            {
+                query = query.Where(p => p.Status == Status.Value);
+            }
+
+            if (InicioDataFabricacao.HasValue)
+            {
+                query = query.Where(p => p.DataFabricacao >= InicioDataFabricacao.Value);
+            }
+
+            if (FimDataFabricacao.HasValue)
+            {
+                query = query.Where(p => p.DataFabricacao <= FimDataFabricacao.Value);
+            }
+
+            if (InicioDataValidade.HasValue)
+            {
+                query = query.Where(p => p.DataValidade >= InicioDataValidade.Value);
+            }
+
+            if (FimDataValidadeMax.HasValue)
+            {
+                query = query.Where(p => p.DataValidade <= FimDataValidadeMax.Value);
+            }
+
+            if (CodFornecedor.HasValue)
+            {
+                query = query.Where(p => p.CodFornecedor == CodFornecedor.Value);
+            }
+            var totalRecords = await query.CountAsync();
+
+            var products = await query
+                .Skip((PageNumber - 1) * PageSize)
+                .Take(PageSize)
+                .ToListAsync();
+
+            return (products, totalRecords);
         }
 
         public async Task AddAsync(Product entity)

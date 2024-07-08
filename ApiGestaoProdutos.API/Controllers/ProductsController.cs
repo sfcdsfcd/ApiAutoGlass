@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ApiGestaoProdutos.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -25,17 +25,24 @@ namespace ApiGestaoProdutos.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAll()
         {
             var products = await _productService.GetAllProductsAsync();
             return Ok(products);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetProductsWithFilter([FromQuery] ProductFilterDTO product)
+        {
+            var products = await _productService.GetAllProductsWithFilterAsync(product);
+            return Ok(products);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> AddProduct(ProductDto productDto)
+        public async Task<IActionResult> AddProduct(AddProductDTO productDto)
         {
             await _productService.AddProductAsync(productDto);
-            return CreatedAtAction(nameof(GetProductById), productDto);
+            return CreatedAtAction(nameof(AddProduct), productDto);
         }
 
         [HttpPut("{id}")]

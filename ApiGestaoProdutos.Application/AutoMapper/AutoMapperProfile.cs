@@ -9,6 +9,7 @@ namespace ApiGestaoProdutos.Application.AutoMapper
         public AutoMapperProfile()
         {
             CreateMap<Product, ProductDto>().ReverseMap();
+            CreateMap<Product, AddProductDTO>().ReverseMap();
         }
     }
 }

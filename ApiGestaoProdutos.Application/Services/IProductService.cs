@@ -6,7 +6,8 @@ namespace ApiGestaoProdutos.Application.Services
     {
         Task<ProductDto> GetProductByIdAsync(int id);
         Task<IEnumerable<ProductDto>> GetAllProductsAsync();
-        Task AddProductAsync(ProductDto productDto);
+        Task<PagedResultDTO<ProductDto>> GetAllProductsWithFilterAsync(ProductFilterDTO product);
+        Task AddProductAsync(AddProductDTO productDto);
         Task UpdateProductAsync(ProductDto productDto);
         Task DeleteProductAsync(int id);
     }

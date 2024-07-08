@@ -29,8 +29,22 @@ namespace ApiGestaoProdutos.Application.Services
             var products = await _repository.GetAllAsync();
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
+        public async Task<PagedResultDTO<ProductDto>> GetAllProductsWithFilterAsync(ProductFilterDTO product)
+        {
 
-        public async Task AddProductAsync(ProductDto productDto)
+            var products = await _repository.GetAllWithFilterAsync(product.Descricao, product.Status, product.InicioDataFabricacao, product.FimDataFabricacao, product.InicioDataValidade, product.FimDataValidadeMax, product.CodFornecedor, product.PageNumber,product.PageSize);
+
+            var productDtos = _mapper.Map<IEnumerable<ProductDto>>(products.Item1);
+            return new PagedResultDTO<ProductDto>
+            {
+                Items = productDtos,
+                PageSize = product.PageSize,
+                PageNumber = product.PageNumber,
+                TotalRecords = products.Item2
+            };
+        }
+
+        public async Task AddProductAsync(AddProductDTO productDto)
         {
             var product = _mapper.Map<Product>(productDto);
 
