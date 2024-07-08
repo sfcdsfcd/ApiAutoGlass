@@ -36,13 +36,16 @@ namespace ApiGestaoProdutos.Application.Services
 
             if (product.DataFabricacao >= product.DataValidade)
                 throw new ArgumentException("A data de fabricação não pode ser maior ou igual à data de validade.");
-
+            
             await _repository.AddAsync(product);
         }
 
         public async Task UpdateProductAsync(ProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
+
+            if (await GetProductByIdAsync(productDto.Id) is null)
+                throw new ArgumentException("Produto Não Encontrado");
 
             if (product.DataFabricacao >= product.DataValidade)
                 throw new ArgumentException("A data de fabricação não pode ser maior ou igual à data de validade.");
@@ -55,7 +58,7 @@ namespace ApiGestaoProdutos.Application.Services
             var product = await _repository.GetByIdAsync(id);
             if (product == null) throw new KeyNotFoundException("Produto não encontrado.");
 
-            product.Status = StatusProdutoEnum.Inativo;
+            product.Status = false;
             await _repository.UpdateAsync(product);
         }
     }

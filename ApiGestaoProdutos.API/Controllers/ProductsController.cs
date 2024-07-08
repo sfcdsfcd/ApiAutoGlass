@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiGestaoProdutos.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -33,7 +35,7 @@ namespace ApiGestaoProdutos.Controllers
         public async Task<IActionResult> AddProduct(ProductDto productDto)
         {
             await _productService.AddProductAsync(productDto);
-            return CreatedAtAction(nameof(GetProductById), new { id = productDto.Id }, productDto);
+            return CreatedAtAction(nameof(GetProductById), productDto);
         }
 
         [HttpPut("{id}")]

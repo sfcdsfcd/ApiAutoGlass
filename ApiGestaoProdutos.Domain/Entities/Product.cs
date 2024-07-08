@@ -8,12 +8,13 @@ namespace ApiGestaoProdutos.Domain.Entities
         public int Id { get; set; }
         [Required]
         public string Descricao { get; set; }
-        public StatusProdutoEnum Status { get; set; }
+        [Required]
+        public bool Status { get; set; } = true;
         public DateTime DataFabricacao { get; set; }
         public DateTime DataValidade { get; set; }
         public int CodFornecedor { get; set; }
-        public string DescricaoFornecedor { get; set; }
+        public string? DescricaoFornecedor { get; set; }
         [StringLength(14)]
-        public string CnpjFornecedor { get; set; }
+        public string? CnpjFornecedor { get; set; }
     }
 }
