@@ -45,11 +45,9 @@ namespace ApiGestaoProdutos.Controllers
             return CreatedAtAction(nameof(AddProduct), productDto);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, ProductDto productDto)
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct(ProductDto productDto)
         {
-            if (id != productDto.Id) return BadRequest();
-
             await _productService.UpdateProductAsync(productDto);
             return NoContent();
         }
