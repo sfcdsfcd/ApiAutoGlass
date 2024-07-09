@@ -58,7 +58,7 @@ namespace ApiGestaoProdutos.Application.Services
         {
             var product = _mapper.Map<Product>(productDto);
 
-            if (await GetProductByIdAsync(productDto.Id) is null)
+            if (await GetProductByIdAsync(product.Id) is null)
                 throw new ArgumentException("Produto Não Encontrado");
 
             if (product.DataFabricacao >= product.DataValidade)
